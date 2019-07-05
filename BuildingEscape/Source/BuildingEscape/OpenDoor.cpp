@@ -17,20 +17,6 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Find the owning object and store it in a variable
-    AActor* Owner = GetOwner();
-    
-    // Access owner's rotation
-    float DoorRot = Owner->GetTransform().GetRotation().GetAngle();
-    // TODO: Open and close the door based on the position report
-    UE_LOG(LogTemp, Warning, TEXT("Rotation is %f"), DoorRot);
-    
-    FRotator NewRotation = FRotator(0.f, -60.f, 0.f);
-    
-    // Set actor rotation
-    Owner->SetActorRotation(NewRotation);
-    
 }
 
 
@@ -39,6 +25,22 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	// if the ActorThatOpens is in the trigger volume
+    if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) // null check included
+    {
+        OpenDoor();
+    }
 }
 
+void UOpenDoor::OpenDoor()
+{
+    // Find the owning object and store it in a variable
+    AActor* Owner = GetOwner();
+    
+    FRotator NewRotation = FRotator(0.f, -60.f, 0.f);
+    
+    // Set actor rotation
+    Owner->SetActorRotation(NewRotation);
+    
+    return;
+}
