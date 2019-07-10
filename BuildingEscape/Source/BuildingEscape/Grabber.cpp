@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Grabber.h"
+#include "DrawDebugHelpers.h"
 
 #define OUT
 
@@ -11,7 +12,7 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+    Reach = 100.f;
 }
 
 
@@ -37,9 +38,23 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
     OUT     PlayerViewPointRotation
     );
     
-    UE_LOG(LogTemp, Warning, TEXT(" Location: %s, Rotation: %s"),
+    /*UE_LOG(LogTemp, Warning, TEXT(" Location: %s, Rotation: %s"),
            *PlayerViewPointLocation.ToString(),
            *PlayerViewPointRotation.ToString()
+    );*/
+    
+    FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+    
+    // Draw a red trace in the world to visualize
+    DrawDebugLine(
+        GetWorld(),
+        PlayerViewPointLocation,
+        LineTraceEnd,
+        FColor(255, 0, 0),
+        false,
+        0.f,
+        0.f,
+        10.f
     );
     
     // TODO: Ray-cast out to reach distance
