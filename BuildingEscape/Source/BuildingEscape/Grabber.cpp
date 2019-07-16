@@ -57,9 +57,25 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
         10.f
     );
     
-    // TODO: Ray-cast out to reach distance
+    // Setup query parameters
+    FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
     
-    // TODO: See what we hit
+    // Line-trace (or Ray-cast) out to reach distance
+    FHitResult Hit;
+    GetWorld()->LineTraceSingleByObjectType(
+        OUT Hit,
+        PlayerViewPointLocation,
+        LineTraceEnd,
+        FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+        TraceParameters
+    );
     
+    // See what we hit
+    AActor* ActorHit = Hit.GetActor();
+    
+    if(ActorHit)
+    {
+        UE_LOG(LogTemp, Warning, TEXT(" The line-trace has hit: %s"),*(ActorHit->GetName()))
+    }
 }
 
