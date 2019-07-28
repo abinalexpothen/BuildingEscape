@@ -8,7 +8,6 @@
 #include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Grabber.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDINGESCAPE_API UGrabber : public UActorComponent
 {
@@ -48,5 +47,11 @@ private:
     
     // Return hit for first physics body in reach
     FHitResult GetFirstPhysicsBodyInReach() const;
+    
+    // Returns the start of reach line
+    FVector GetReachLineStart() const;
+    
+    // returns the end of reach line
+    FVector GetReachLineEnd() const;
     
 };
